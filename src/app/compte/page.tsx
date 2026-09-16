@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ClientNavbar from '@/components/layout/ClientNavbar';
@@ -28,6 +28,14 @@ import { ConfirmDialog } from '@/components/admin/ConfirmDialog';
 type CompteTab = 'billets' | 'commandes' | 'profil';
 
 export default function ComptePage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-slate-50 flex items-center justify-center text-slate-600">Chargement...</div>}>
+      <CompteContent />
+    </Suspense>
+  );
+}
+
+function CompteContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user, tickets, orders, logout, updateProfile, beneficiaries } = useApp();
